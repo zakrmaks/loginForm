@@ -1,17 +1,13 @@
 from flask_login import UserMixin
+
 from flask_sqlalchemy import SQLAlchemy
-from app import app
+db = SQLAlchemy();
 
-db = SQLAlchemy()
-db.init_app(app)
-
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-
-with app.app_context():
-    db.create_all()
+def initial_db(app):
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    db.init_app(app)
+    return db
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True) # primary keys are required by SQLAlchemy
