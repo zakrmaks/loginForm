@@ -1,18 +1,16 @@
 from flask import Flask
 from auth import auth as auth_blueprint
 from main import main as main_blueprint
-from models import initial_db, User
+from models import User
+from test import initial_db
 from flask_login import LoginManager
 
 # init SQLAlchemy so we can use it later in our models
 
 
 app = Flask(__name__)
-initial_db(app)
+db = initial_db(app)
 app.config['SECRET_KEY'] = 'secret-key-goes-here'
-
-
-
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 login_manager.init_app(app)
